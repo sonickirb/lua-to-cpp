@@ -45,58 +45,13 @@ local function translate(luafile, cpptemplateFile)
 
     local translated = ''
 
-    local function parseBlock(blk)
-        print(blk)
-
-        local parsed = ''
-        local operation
-        local operationA
-        local operationB
-
-        for i, v in pairs(blk) do
-            local t = type(v)
-            local z = ''
-            if t == 'table' then
-                z = parseBlock(v)
-                if string.match(z, '+') or string.match(z, '-') or string.match(z, '/') or string.match(z, '*') then
-                    z = '(' .. z .. ')'
-                end
-                if operation then
-                    if not operationA then
-                        operationA = z
-                    else
-                        operationB = z
-                    end
-                    z = ''
-                end
-            elseif v == '+' or v == '-' or v == '/' or v == '*' or v == '^' then
-                operation = v
-            elseif t == 'number' then
-                if string.match(tostring(v), "[.]") then
-                    z = v .. 'f'
-                else
-                    z = v .. '.0f'
-                end
-            else
-                z = v
-            end
-            parsed = parsed .. z
-        end
-
-        if operation then
-            parsed = operationA .. operation .. operationB
-        end
-
-        return parsed
-    end
-
     local GLOBALVAR = ''
 
-    for _, com in pairs(luainfo) do
+    local AssHole = {}
+
+    function plzsend(com)
         local f = ''
 
-        print(com)
-        
         local action = com[1]
 
         if action == 'call' then
@@ -111,6 +66,8 @@ local function translate(luafile, cpptemplateFile)
                     f = f .. '<< ' .. interpreted .. ' << " " '
                 end
                 f = f .. ' << "\\n";'
+            elseif func == 'ioread' then
+                f = f .. 'cin >> ' .. parseBlock(inputs[1]) .. ';'
             end
         elseif action == 'local' or action == 'global' then
             local name = com[2][1]
@@ -120,17 +77,128 @@ local function translate(luafile, cpptemplateFile)
             if tonumber(string.sub(set, 1, string.len(set)-1)) then
                 cpptype = 'float'
             end
+            cpptype = cpptype .. ' '
 
-            f = f .. cpptype .. ' ' .. name .. ' = ' .. set
+            if set ~= '' then
+                set = ' = ' .. set
+            end
+
+            if AssHole[name] then
+                cpptype = ''
+            end
+
+            f = f .. cpptype .. name .. set
 
             f = f .. ';'
 
-            if action == 'global' then
+            if action == 'global' and not AssHole[name] then
                 GLOBALVAR = GLOBALVAR .. f .. '\n'
                 f = ''
             end
+            
+            AssHole[name] = true
+        elseif action == 'if' then
+            local ifIndex = 1
+            for m, z in pairs(com) do
+                if m ~= 1 then -- skip action var
+                    if ifIndex == 1 then
+                        f = f .. 'if'
+                    else f = f .. 'else if' end
+                    local condition = z[1]
+                    f = f .. ' (' .. parseBlock(condition) .. ') {\n'
+                    local blocks = z[2]
+                    for _, com2 in pairs(blocks) do
+                        local x = ''
+
+                        x = plzsend(com2)
+
+                        f = f .. '\t\t' .. x .. '\n'
+                    end
+                    f = f .. '}'
+                    if m >= #com then f = f .. '\n' end
+                    ifIndex = ifIndex + 1
+                end
+            end
+        elseif action == 'while' then
+            f = f .. 'while'
+            local condition = com[2]
+            f = f .. ' (' .. parseBlock(condition) .. ') {\n'
+            local blocks = com[3]
+            for _, com2 in pairs(blocks) do
+                local x = ''
+
+                x = plzsend(com2)
+
+                f = f .. '\t\t' .. x .. '\n'
+            end
+            f = f .. '\t}'
         end
 
+        return f
+    end
+
+    function parseBlock(blk)
+        print(blk)
+
+        local parsed = ''
+        local operation
+        local operationA
+        local operationB
+
+        if blk[1] == 'call' then
+            parsed = plzsend(blk)
+        else
+            for i, v in pairs(blk) do
+                local t = type(v)
+                local z = ''
+                if t == 'table' then
+                    z = parseBlock(v)
+                    if string.match(z, '+') or string.match(z, '-') or string.match(z, '/') or string.match(z, '*') then
+                        z = '(' .. z .. ')'
+                    end
+                    if operation then
+                        if not operationA then
+                            operationA = z
+                        else
+                            operationB = z
+                        end
+                        z = ''
+                    end
+                elseif v == '+' or v == '-' or v == '/' or v == '*' or v == '^' or v == '..' or v == '==' or v == '~=' then
+                    operation = v
+                elseif t == 'number' then
+                    if string.match(tostring(v), "[.]") then
+                        z = v .. 'f'
+                    else
+                        z = v .. '.0f'
+                    end
+                else
+                    z = v
+                end
+                parsed = parsed .. tostring(z)
+            end
+        end
+
+        if operation then
+            local cppoperation = {}
+            cppoperation['~='] = '!='
+
+            if operation == '..' then
+                parsed = operationA .. ' + ' .. operationB
+            else
+                parsed = operationA .. ' ' .. (cppoperation[operation] or operation) .. ' ' .. operationB
+            end
+        end
+
+        return parsed
+    end
+
+    for _, com in pairs(luainfo) do
+        local f = ''
+
+        print(com)
+
+        f = plzsend(com)
 
         translated = translated .. '\t' .. f .. '\n'
     end

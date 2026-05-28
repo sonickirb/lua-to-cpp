@@ -56,8 +56,9 @@ function IsNumber(c)
   if string.match(c, "[0-9]") then return true end
 end
 function IsName(c)
-  if string.match(c, "[a-zA-Z]") then return true end
+  if string.match(c, "[a-zA-Z_]") then return true end
 end
+
 
 function GetNumber()
   local o = ""
@@ -75,7 +76,7 @@ end
 function GetName()
   local o = ""
   if not IsName(Look) then Expected("Name") end
-  while IsName(Look) do
+  while IsName(Look) or IsNumber(Look) do
     o = o .. Look
     GetChar()
   end
@@ -155,6 +156,37 @@ function base()
       return {nil}
     elseif Na == "not" then
       return {"not", top()}
+    elseif Na == "do" then
+      --print("hiiii")
+      -- [code block]
+      local o = {}
+      while Read(3) ~= "end" do
+        table.insert(o, top())
+      end
+      Match("e")Match("n")Match("d")
+      return o
+    elseif Na == "if" then
+          print(Look, Read(30))
+      local condition = top()
+      print(condition)
+      print(Look, Read(30))
+      if GetName() ~= "then" then Expected("then") end
+      local o = {"if"}
+      local current_t = {condition, {}}
+      while Read(3) ~= "end" do
+        while Read(6) ~= "elseif" and Read(3) ~= "end" do
+          table.insert(current_t[2], top())
+        end
+        table.insert(o, current_t)
+        current_t = {{}, {}}
+        if Read(6) == "elseif" then
+          if GetName() ~= "elseif" then Expected("elseif") end -- cry about it
+          current_t[1] = top()
+          if GetName() ~= "then" then Expected("then") end
+        end
+      end
+      Match("e")Match("n")Match("d")
+      return o--{"if", condition, top()}
     else
       return {Na}
     end
@@ -316,5 +348,8 @@ print(1, (24))
 a = true or false
 b = true and true
 ]]
+Str = [[
+if cond1 then 1 2 elseif cond2 then 3 4 elseif cond3 then 5 6 end
+]]
 
---print(CreateLinesTable())
+--print(CreateLinesTable(Str))

@@ -1,3 +1,5 @@
+-- qar_ty code of all time
+
 _realprint = print
 _tostring = tostring
 

@@ -3,16 +3,23 @@
 local Str = ""
 local At = 0
 local Look = ""
+local SkipWhitespace
 function GetChar()
   At = At + 1
   Look = string.sub(Str, At, At)
+  if string.sub(Str, At, At + 1) == "--" then
+    while Look ~= "\n" do
+      GetChar()
+    end
+    GetChar() SkipWhitespace()
+  end
 end
 
 function View(n)
   return string.sub(Str, At+n, At+n)
 end
 function Read(n)
-  return string.sub(Str, At, At+n)
+  return string.sub(Str, At, At+(n-1))
 end
 
 require("libs/overrides")
@@ -100,7 +107,7 @@ function GetString()
   term = string.reverse(term)
   local termlen = #term
   if termlen > 1 then
-    while View(termlen) ~= term do
+    while Read(termlen) ~= term do
       o = o .. Look
       GetChar()
     end
@@ -179,7 +186,7 @@ function priority_2()
 end
 function priority_3()
   local parameter_1 = priority_2()
-  if Look == "~" then
+  if Look == "~" and View(1) ~= "=" then
     Match("~")
     return {"~", parameter_1}
   elseif Look == "#" then
@@ -210,20 +217,102 @@ function priority_5()
   end
   return parameter_1
 end
+function priority_6()
+  local parameter_1 = priority_5()
+  while Read(2) == ".." do
+    local op = ".." GetChar() Match(".")
+    parameter_1 = {"..", parameter_1, priority_5()}
+  end
+  return parameter_1
+end
+function priority_7()
+  local parameter_1 = priority_6()
+  while Read(2) == ">>" or Read(2) == "<<" do -- lua has these, btw, lol
+    local op = Look; GetChar(); GetChar(); SkipWhitespace()
+    parameter_1 = {op..op, parameter_1, priority_6()}
+  end
+  return parameter_1
+end
+function priority_8()
+  local parameter_1 = priority_7()
+  while Look == "&" do
+    Match("&")
+    parameter_1 = {"&", parameter_1, priority_7()}
+  end
+  return parameter_1
+end
+function priority_9()
+  local parameter_1 = priority_8()
+  while Look == "~" and View(1) ~= "=" do
+    Match("~")
+    parameter_1 = {"~", parameter_1, priority_8()}
+  end
+  return parameter_1
+end
+function priority_10()
+  local parameter_1 = priority_9()
+  while Look == "|" do
+    Match("|")
+    parameter_1 = {"|", parameter_1, priority_9()}
+  end
+  return parameter_1
+end
+function priority_11()
+  local parameter_1 = priority_10()
+  --print(Read(2) .. "!")
+  while Look == ">" or Look == "<" or Look == "~" or Look == "=" do
+    local op = Look; GetChar()
+    if Look == "=" then op = op .. Look; GetChar() end
+    SkipWhitespace()
+    parameter_1 = {op, parameter_1, priority_10()}
+  end
+  return parameter_1
+end
+function priority_12()
+  local parameter_1 = priority_11()
+  while Read(3) == "and" do
+    GetChar() GetChar() Match("d")
+    parameter_1 = {"and", parameter_1, priority_11()}
+  end
+  return parameter_1
+end
+function priority_13()
+  local parameter_1 = priority_12()
+  while Read(2) == "or" do
+    GetChar() Match("r")
+    parameter_1 = {"or", parameter_1, priority_12()}
+  end
+  return parameter_1
+end
 
-top = priority_5
+top = priority_13
 
-function CreateLinesTable(lua)
-  Str = lua
+function CreateLinesTable()
   GetChar()
   local o = {}
   while Look ~= "" do
+    --SkipWhitespace()
     table.insert(o, top())
+
+    --print(Read(40))
   end
   return o
 end
 
 
-Str = [[print("hello", 1+2+3+4+5) 1 2 3]]
+Str = [[(1 + 1)/2 --hello
+1>>2 << 1
+"a" .. "b"
+1 | 2 & 3 | 4
+1 > 2
+1 >= 2
+1 < 2
+1 <= 2
+1 ~= 2
+1 == 2
+print(1, (24))
+a = true or false
+b = true and true
+]]
 
 --print(CreateLinesTable())

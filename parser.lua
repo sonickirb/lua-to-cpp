@@ -123,9 +123,20 @@ function GetString()
     SkipWhitespace()
   return [["]] .. o .. [["]]
 end
+top = nil
+function GetTable()
+  Match("{")
+  local o = {}
+  while Look ~= "}" do
+    table.insert(o, top())
+    if Look == "," then Match(",") end
+  end
+  Match("}")
+  return o
+end
 --local tab = {{}}
 --local tab_position = tab[1]
-top = nil
+
 function base()
   if Look == "(" then -- bracket handling
     Match("(")
@@ -138,6 +149,8 @@ function base()
     return {GetNumber()}
   elseif IsString(Look) then
     return {GetString()}
+  elseif Look == "{" then
+    return {GetTable()}
   elseif IsName(Look) then
     -- Emit Name
     local Na = GetName()
@@ -178,6 +191,13 @@ function base()
       return {"while", top(), top()}
     elseif Na == "break" then
       return {"break"}
+    elseif Na == "for" then
+      local first = top()
+      Match(",")
+      local second = top()
+      local third = 1
+      if Look == "," then third = top() end
+      return {"for", first, second, third, top()}
     elseif Na == "do" then
       --print("hiiii")
       -- [code block]
@@ -209,6 +229,17 @@ function base()
       end
       Match("e")Match("n")Match("d")
       return o--{"if", condition, top()}
+    --[[elseif (Look == "." and View(1) ~= ".") or (Look == "[" and View(1) ~= "[") then
+      local o = {Na}
+      local tab = {o}
+
+      while (Look == "." and View(1) ~= ".") or (Look == "[" and View(1) ~= "[") do
+        GetChar() SkipWhitespace()
+        --o = {"index", o, top()}
+        table.insert(tab, top())
+      end--]]
+      --if Look == "]" then Match("]") end
+      --return o
     else
       return {Na}
     end
@@ -340,8 +371,27 @@ function priority_13()
   end
   return parameter_1
 end
+function priority_14()
+  local parameter_1 = priority_13()
+  local tab = {parameter_1}
+    while (Look == "." and View(1) ~= ".") or (Look == "[" and View(1) ~= "[") do
+      GetChar() SkipWhitespace()
+      --o = {"index", o, top()}
+      table.insert(tab, priority_13())
+    end
+  if #tab == 1 then
+    return parameter_1
+  else
+    if Look == "]" then Match("]") end
+    for i = 2, #tab do
+      parameter_1 = {"index", parameter_1, tab[i]}
+    end
+  end
 
-top = priority_13
+  return parameter_1
+end
+
+top = priority_14
 
 function CreateLinesTable(lua)
   Str = lua
@@ -356,6 +406,7 @@ function CreateLinesTable(lua)
   end
   return o
 end
+
 
 
 Str = [[(1 + 1)/2 --hello
@@ -383,5 +434,17 @@ print(abc + (98238998 - (29834792834 / (893478.281289 * (982389.109 * 3.145)))))
 ]]
 Str = [[
 a = 2 - 2
+]]
+Str = [[
+for i = 1, 10 do
+  1
+  2
+  3
+end
+]]
+Str = [[
+a = {1, 2, 3, {4}}
+a[1]
+print({1, 2, 3, 4})
 ]]
 -- print(CreateLinesTable(Str))

@@ -1,4 +1,5 @@
 -- qar_ty amazing lua code youve got here of all code and codes of all code
+
 local Str = ""
 local At = 0
 local Look = ""
@@ -165,6 +166,7 @@ function base()
         table.insert(fparam_names, GetName())
         if Look == "," then Match(",") end
       end
+      Match(")")
       local o = {}
       while Read(3) ~= "end" do -- IF YOU CHANGE THIS, CHANGE THE DO CODE!
         table.insert(o, top())
@@ -382,5 +384,4 @@ print(abc + (98238998 - (29834792834 / (893478.281289 * (982389.109 * 3.145)))))
 Str = [[
 a = 2 - 2
 ]]
-
---print(CreateLinesTable(Str))
+-- print(CreateLinesTable(Str))

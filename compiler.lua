@@ -88,6 +88,7 @@ local function translate(luafile, cpptemplateFile)
             if tonumber(string.sub(set, 1, string.len(set)-1)) then
                 cpptype = 'float'
             end
+            cpptype = 'auto'
             cpptype = cpptype .. ' '
 
             if set ~= '' then
@@ -171,6 +172,8 @@ local function translate(luafile, cpptemplateFile)
 
             GLOBALVAR = GLOBALVAR .. f .. '\n'
             f = ''
+        elseif action == 'return' then
+            f = f .. 'return ' .. parseBlock(com[2]) .. ';\n'
         end
 
         return f

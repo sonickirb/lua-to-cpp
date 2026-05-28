@@ -8,9 +8,13 @@ print(1 / 2)
 function hurrah(a, b)
     print('aoiksdok')
     print(a, b)
+
+    return a
 end
 
-hurrah('HELLO', 2)
+local ass = hurrah('HELLO', 2)
+
+print(ass)
 
 local a = 1
 local b = "abc woah im so nerdy Lua String !"

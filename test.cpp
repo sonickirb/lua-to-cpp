@@ -7,8 +7,10 @@ using namespace std;
 auto hurrah(auto a, auto b) {
 		cout << "aoiksdok" << " "  << "\n";
 		cout << a << " " << b << " "  << "\n";
+		return a;
+
 }
-string MyAwesomeGlobal = "abc";
+auto MyAwesomeGlobal = "abc";
 
 
 int main() {
@@ -20,15 +22,16 @@ int main() {
 	cout << (1.0f + 1.0f) / 2.0f << " "  << "\n";
 	cout << 1.0f / 2.0f << " "  << "\n";
 	
-	hurrah("HELLO", 2.0f);
-	float a = 1.0f;
-	string b = "abc woah im so nerdy Lua String !";
+	auto ass = hurrah("HELLO", 2.0f);;
+	cout << ass << " "  << "\n";
+	auto a = 1.0f;
+	auto b = "abc woah im so nerdy Lua String !";
 	cout << b << " "  << "\n";
 	cout << a << " "  << "\n";
 	
 	cout << MyAwesomeGlobal << " "  << "\n";
 	cout << "Please give me a number between 0 and 15." << " "  << "\n";
-	float userNumber = 0.0f;
+	auto userNumber = 0.0f;
 	cin >> userNumber;
 	if (userNumber != 0.0f) {
 		cout << "Hahahah you suck loser !!" << " "  << "\n";
@@ -38,7 +41,7 @@ int main() {
 
 	cout << userNumber << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
-	float PARTICLEBAR = 0.0f;
+	auto PARTICLEBAR = 0.0f;
 	while (true) {
 		PARTICLEBAR = PARTICLEBAR + 1.0f;
 		cout << PARTICLEBAR << " "  << "\n";

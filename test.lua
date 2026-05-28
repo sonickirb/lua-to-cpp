@@ -44,14 +44,16 @@ end
 print('Please give me a number between 0 and 15.')
 local userNumber = io.read()
 
-if tonumber(userNumber) ~= 0 then
+local numuser = tonumber(userNumber)
+
+if numuser ~= 0 then
     print('Hahahah you suck loser !!')
-elseif tonumber(userNumber) == 0 then
+elseif numuser == 0 then
     print('You win, not much too it eh ? ?!? ?!@#?E !@? ?!@ ?!@? ')
 end
 
 print(userNumber)
-print(tonumber(userNumber))
+print(numuser)
 
 print('your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))')
 

@@ -53,14 +53,15 @@ int main() {
 	}
 	cout << "Please give me a number between 0 and 15." << " "  << "\n";
 	auto userNumber = ioread();
-	if (tonumber(userNumber) != 0.0) {
+	auto numuser = tonumber(userNumber);
+	if (numuser != 0.0) {
 		cout << "Hahahah you suck loser !!" << " "  << "\n";
-	}else if (tonumber(userNumber) == 0.0) {
+	}else if (numuser == 0.0) {
 		cout << "You win, not much too it eh ? ?!? ?!@#?E !@? ?!@ ?!@? " << " "  << "\n";
 	}
 
 	cout << userNumber << " "  << "\n";
-	cout << tonumber(userNumber) << " "  << "\n";
+	cout << numuser << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
 
 

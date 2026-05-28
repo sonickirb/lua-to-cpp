@@ -90,6 +90,8 @@ local function translate(luafile, cpptemplateFile)
         return parsed
     end
 
+    local GLOBALVAR = ''
+
     for _, com in pairs(luainfo) do
         local f = ''
 
@@ -110,7 +112,7 @@ local function translate(luafile, cpptemplateFile)
                 end
                 f = f .. ' << "\\n";'
             end
-        elseif action == 'local' then
+        elseif action == 'local' or action == 'global' then
             local name = com[2][1]
             local set = parseBlock(com[3])
 
@@ -122,15 +124,21 @@ local function translate(luafile, cpptemplateFile)
             f = f .. cpptype .. ' ' .. name .. ' = ' .. set
 
             f = f .. ';'
+
+            if action == 'global' then
+                GLOBALVAR = GLOBALVAR .. f .. '\n'
+                f = ''
+            end
         end
 
 
-        translated = translated .. f .. '\n'
+        translated = translated .. '\t' .. f .. '\n'
     end
 
     print(translated)
 
     cpp = string.gsub(cpp, 'LUACODE', translated)
+    cpp = string.gsub(cpp, 'GLOBALVAR', GLOBALVAR)
 
     print(cpp)
 

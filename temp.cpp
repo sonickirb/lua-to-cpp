@@ -2,9 +2,11 @@
 #include <float.h>
 using namespace std;
 
+GLOBALVAR
+
 int main() {
 
-    LUACODE
+LUACODE
 
     return 0;
 }

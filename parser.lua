@@ -195,7 +195,7 @@ function base()
       local first = top()
       Match(",")
       local second = top()
-      local third = 1
+      local third = {1}
       if Look == "," then Match(",") third = top() end
       return {"for", first, second, third, top()}
     elseif Na == "do" then
@@ -453,3 +453,4 @@ for i = 1, 2, 3 do
 end
 ]]
 -- print(CreateLinesTable(Str))
+

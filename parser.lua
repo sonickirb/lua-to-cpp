@@ -165,7 +165,7 @@ function base()
       while Look ~= ")" do
         table.insert(fparam_names, GetName())
         if Look == "," then Match(",") end
-      end
+      endtrue .. true
       local o = {}
       while Read(3) ~= "end" do -- IF YOU CHANGE THIS, CHANGE THE DO CODE!
         table.insert(o, top())
@@ -175,6 +175,8 @@ function base()
       return {"function", fparam_names, o}
     elseif Na == "while" then
       return {"while", top(), top()}
+    elseif Na == "break" then
+      return {"break"}
     elseif Na == "do" then
       --print("hiiii")
       -- [code block]

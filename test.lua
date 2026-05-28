@@ -29,7 +29,8 @@ print(userNumber)
 
 print('your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))')
 
+local PARTICLEBAR = 0
 while true do
-    local MyAwesomeEvilAbc = 98456984389543896548345980
-    MyAwesomeEvilAbc = MyAwesomeEvilAbc + 98238998 - 29834792834 / 893478.281289 * 982389.109 * 3.145
+    PARTICLEBAR = PARTICLEBAR + 1
+    print(PARTICLEBAR)
 end

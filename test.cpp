@@ -31,9 +31,10 @@ int main() {
 
 	cout << userNumber << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
+	float PARTICLEBAR = 0.0f;
 	while (true) {
-		float MyAwesomeEvilAbc = 9.8456984389544e+25f;
-		MyAwesomeEvilAbc = (MyAwesomeEvilAbc + 98238998.0f) - (((29834792834.0f / 893478.281289f) * 982389.109f) * 3.145f);
+		PARTICLEBAR = PARTICLEBAR + 1.0f;
+		cout << PARTICLEBAR << " "  << "\n";
 	}
 
 

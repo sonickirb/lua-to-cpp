@@ -132,6 +132,8 @@ local function translate(luafile, cpptemplateFile)
                 f = f .. '\t\t' .. x .. '\n'
             end
             f = f .. '\t}'
+        elseif action == 'break' then
+            f = f .. 'break;\n'
         end
 
         return f

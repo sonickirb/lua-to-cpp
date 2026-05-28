@@ -33,4 +33,10 @@ local PARTICLEBAR = 0
 while true do
     PARTICLEBAR = PARTICLEBAR + 1
     print(PARTICLEBAR)
+
+    if PARTICLEBAR == 100 then
+        break
+    end
 end
+
+print('you lose.')

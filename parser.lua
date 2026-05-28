@@ -165,7 +165,7 @@ function base()
       while Look ~= ")" do
         table.insert(fparam_names, GetName())
         if Look == "," then Match(",") end
-      endtrue .. true
+      end
       local o = {}
       while Read(3) ~= "end" do -- IF YOU CHANGE THIS, CHANGE THE DO CODE!
         table.insert(o, top())

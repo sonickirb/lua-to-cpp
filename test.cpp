@@ -35,7 +35,13 @@ int main() {
 	while (true) {
 		PARTICLEBAR = PARTICLEBAR + 1.0f;
 		cout << PARTICLEBAR << " "  << "\n";
+		if (PARTICLEBAR == 100.0f) {
+		break;
+
+}
+
 	}
+	cout << "you lose." << " "  << "\n";
 
 
     return 0;

@@ -287,7 +287,9 @@ end
 
 top = priority_13
 
-function CreateLinesTable()
+function CreateLinesTable(lua)
+  Str = lua
+  At = 0
   GetChar()
   local o = {}
   while Look ~= "" do

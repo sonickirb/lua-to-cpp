@@ -5,6 +5,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// built-in lua functions
+string ioread() {
+    string got;
+    cin >> got;
+    cout << "LUACOMP ioread " << got << "\n";
+    return got;
+}
+
+double tonumber(string str) {
+	double num = stod(str);
+    cout << "LUACOMP tonumber " << num << "\n";
+	return num;
+}
+
 auto hurrah(auto a, auto b) {
 		cout << "aoiksdok" << " "  << "\n";
 		cout << a << " " << b << " "  << "\n";
@@ -23,7 +37,7 @@ int main() {
 	cout << (1.0 + 1.0) / 2.0 << " "  << "\n";
 	cout << 1.0 / 2.0 << " "  << "\n";
 	
-	auto ass = hurrah("HELLO", 2.0);;
+	auto ass = hurrah("HELLO", 2.0);
 	cout << ass << " "  << "\n";
 	auto a = 1.0;
 	auto b = "abc woah im so nerdy Lua String !";
@@ -38,27 +52,16 @@ int main() {
 			cout << "my AMAZING Floats are" << " " << i << " "  << "\n";
 	}
 	cout << "Please give me a number between 0 and 15." << " "  << "\n";
-	auto userNumber = 0.0;
-	cin >> userNumber;
-	if (userNumber != 0.0) {
+	auto userNumber = ioread();
+	if (tonumber(userNumber) != 0.0) {
 		cout << "Hahahah you suck loser !!" << " "  << "\n";
-	}else if (userNumber == 0.0) {
+	}else if (tonumber(userNumber) == 0.0) {
 		cout << "You win, not much too it eh ? ?!? ?!@#?E !@? ?!@ ?!@? " << " "  << "\n";
 	}
 
 	cout << userNumber << " "  << "\n";
+	cout << tonumber(userNumber) << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
-	auto PARTICLEBAR = 0.0;
-	while (true) {
-		PARTICLEBAR = PARTICLEBAR + 1.0;
-		cout << PARTICLEBAR << " "  << "\n";
-		if (PARTICLEBAR == 100.0) {
-		break;
-
-	}
-
-	}
-	cout << "you lose." << " "  << "\n";
 
 
     return 0;

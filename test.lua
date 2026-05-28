@@ -42,27 +42,27 @@ end
 --print(inittable[1])
 
 print('Please give me a number between 0 and 15.')
-local userNumber = 0
-ioread(userNumber)
+local userNumber = io.read()
 
-if userNumber ~= 0 then
+if tonumber(userNumber) ~= 0 then
     print('Hahahah you suck loser !!')
-elseif userNumber == 0 then
+elseif tonumber(userNumber) == 0 then
     print('You win, not much too it eh ? ?!? ?!@#?E !@? ?!@ ?!@? ')
 end
 
 print(userNumber)
+print(tonumber(userNumber))
 
 print('your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))')
 
-local PARTICLEBAR = 0
-while true do
-    PARTICLEBAR = PARTICLEBAR + 1
-    print(PARTICLEBAR)
+--local PARTICLEBAR = 0
+--while true do
+--    PARTICLEBAR = PARTICLEBAR + 1
+--    print(PARTICLEBAR)
+--
+--    if PARTICLEBAR == 100 then
+--        break
+--    end
+--end
 
-    if PARTICLEBAR == 100 then
-        break
-    end
-end
-
-print('you lose.')
+--print('you lose.')

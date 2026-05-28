@@ -81,7 +81,7 @@ local function translate(luafile, cpptemplateFile)
                         f = f .. ', '
                     end
                 end
-                f = f .. ');'
+                f = f .. ')'
             end
         elseif action == 'local' or action == 'global' then
             local name = com[2][1]
@@ -112,6 +112,11 @@ local function translate(luafile, cpptemplateFile)
             end
             
             AssHole[name] = true
+        elseif action == 'index' then
+            local name = parseBlock(com[2])
+            if name == 'io' then
+                f = f .. 'io' .. com[3][2] .. '();'
+            end
         elseif action == 'for' then
             local indexBlk  = com[2]
             local indexName = parseBlock(indexBlk[2])
@@ -241,6 +246,7 @@ local function translate(luafile, cpptemplateFile)
                     else
                         z = v .. '.0'
                     end
+                elseif v == 'index' then
                 else
                     z = v
                 end

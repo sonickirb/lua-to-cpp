@@ -206,7 +206,7 @@ local function translate(luafile, cpptemplateFile)
                         end
                         z = ''
                     end
-                elseif v == '+' or v == '-' or v == '/' or v == '*' or v == '^' or v == '..' or v == '==' or v == '~=' then
+                elseif v == '+' or v == '-' or v == '/' or v == '*' or v == '^' or v == '..' or v == '==' or v == '~=' or v == '<' or v == '>' then
                     operation = v
                 elseif t == 'number' then
                     if string.match(tostring(v), "[.]") then

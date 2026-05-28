@@ -127,7 +127,7 @@ local function translate(luafile, cpptemplateFile)
             local blocks = com[5]
 
             f = f .. 'for ('
-            f = f .. 'float ' .. indexName .. ' = ' .. setas .. '; '
+            f = f .. 'double ' .. indexName .. ' = ' .. setas .. '; '
             f = f .. 'i <= ' .. uncill .. '; '
             f = f .. 'i+=' .. increment .. ') '
             f = f .. '{\n\t'

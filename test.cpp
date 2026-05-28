@@ -45,10 +45,10 @@ int main() {
 	cout << a << " "  << "\n";
 	
 	cout << MyAwesomeGlobal << " "  << "\n";
-	for (float i = 1.0; i <= 3.0; i+=1.0) {
+	for (double i = 1.0; i <= 3.0; i+=1.0) {
 			cout << "my AMAZING FOR is" << " " << i << " "  << "\n";
 	}
-	for (float i = 0.0; i <= 1.0; i+=0.01) {
+	for (double i = 0.0; i <= 1.0; i+=0.01) {
 			cout << "my AMAZING Floats are" << " " << i << " "  << "\n";
 	}
 	cout << "Please give me a number between 0 and 15." << " "  << "\n";
@@ -63,6 +63,9 @@ int main() {
 	cout << userNumber << " "  << "\n";
 	cout << numuser << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
+	for (double i = 0.0 - 100000.0; i <= 100000.0; i+=0.01) {
+			cout << i << " "  << "\n";
+	}
 
 
     return 0;

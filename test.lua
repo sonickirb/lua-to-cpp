@@ -26,6 +26,21 @@ MyAwesomeGlobal = 'abc'
 
 print(MyAwesomeGlobal)
 
+for i = 1, 3 do
+    print('my AMAZING FOR is', i)
+end
+
+for i = 0, 1, 0.01 do
+    print('my AMAZING Floats are', i)
+end
+
+--local tabletest = {}
+--tabletest[1] = 67
+--print(tabletest[1])
+
+--local inittable = {89}
+--print(inittable[1])
+
 print('Please give me a number between 0 and 15.')
 local userNumber = 0
 ioread(userNumber)

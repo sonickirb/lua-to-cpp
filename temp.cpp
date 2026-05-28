@@ -2,6 +2,7 @@
 #include <float.h>
 #include <string.h>
 #include <any>
+#include <bits/stdc++.h>
 using namespace std;
 
 GLOBALVAR

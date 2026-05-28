@@ -49,10 +49,12 @@ local function translate(luafile, cpptemplateFile)
 
     local AssHole = {}
 
-    function plzsend(com)
+    function plzsend(com, actionTable)
         local f = ''
 
         local action = com[1]
+        if not actionTable then actionTable = {} end
+        actionTable[#actionTable+1] = action
 
         if action == 'call' then
             local func = com[2][1]
@@ -61,6 +63,7 @@ local function translate(luafile, cpptemplateFile)
             if func == 'print' then
                 f = f .. 'cout '
                 for inputIndex, input in pairs(inputs) do
+                    
                     local interpreted = parseBlock(input)
                     
                     f = f .. '<< ' .. interpreted .. ' << " " '
@@ -109,6 +112,28 @@ local function translate(luafile, cpptemplateFile)
             end
             
             AssHole[name] = true
+        elseif action == 'for' then
+            local indexBlk  = com[2]
+            local indexName = parseBlock(indexBlk[2])
+            local setas     = parseBlock(indexBlk[3])
+
+            local uncill = parseBlock(com[3])
+            local increment = parseBlock(com[4])
+            local blocks = com[5]
+
+            f = f .. 'for ('
+            f = f .. 'float ' .. indexName .. ' = ' .. setas .. '; '
+            f = f .. 'i <= ' .. uncill .. '; '
+            f = f .. 'i+=' .. increment .. ') '
+            f = f .. '{\n\t'
+            for _, com2 in pairs(blocks) do
+                local x = ''
+
+                x = plzsend(com2)
+
+                f = f .. '\t\t' .. x .. '\n'
+            end
+            f = f .. '\t}'
         elseif action == 'if' then
             local ifIndex = 1
             for m, z in pairs(com) do
@@ -126,7 +151,7 @@ local function translate(luafile, cpptemplateFile)
 
                         f = f .. '\t\t' .. x .. '\n'
                     end
-                    f = f .. '}'
+                    f = f .. '\t}'
                     if m >= #com then f = f .. '\n' end
                     ifIndex = ifIndex + 1
                 end
@@ -185,7 +210,9 @@ local function translate(luafile, cpptemplateFile)
         local parsed = ''
         local operation
         local operationA
+        local aNUM
         local operationB
+        local bNUM
 
         if blk[1] == 'call' then
             parsed = plzsend(blk)
@@ -210,9 +237,9 @@ local function translate(luafile, cpptemplateFile)
                     operation = v
                 elseif t == 'number' then
                     if string.match(tostring(v), "[.]") then
-                        z = v .. 'f'
+                        z = v .. ''
                     else
-                        z = v .. '.0f'
+                        z = v .. '.0'
                     end
                 else
                     z = v
@@ -226,7 +253,7 @@ local function translate(luafile, cpptemplateFile)
             cppoperation['~='] = '!='
 
             if operation == '..' then
-                parsed = operationA .. ' + ' .. operationB
+                parsed = (aNUM and ('to_string('..operationA..')') or operationA) .. ' + ' .. (bNUM and ('to_string('..operationB..')') or operationB)
             else
                 parsed = operationA .. ' ' .. (cppoperation[operation] or operation) .. ' ' .. operationB
             end

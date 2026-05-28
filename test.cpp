@@ -2,6 +2,7 @@
 #include <float.h>
 #include <string.h>
 #include <any>
+#include <bits/stdc++.h>
 using namespace std;
 
 auto hurrah(auto a, auto b) {
@@ -16,39 +17,45 @@ auto MyAwesomeGlobal = "abc";
 int main() {
 
 	cout << "hello" << " "  << "\n";
-	cout << "hello my nerdy lua friends" << " " << 32.0f << " "  << "\n";
-	cout << 1.0f + 1.0f << " "  << "\n";
-	cout << (((1.0f + 2.0f) + 3.0f) + 4.0f) + 5.0f << " "  << "\n";
-	cout << (1.0f + 1.0f) / 2.0f << " "  << "\n";
-	cout << 1.0f / 2.0f << " "  << "\n";
+	cout << "hello my nerdy lua friends" << " " << 32.0 << " "  << "\n";
+	cout << 1.0 + 1.0 << " "  << "\n";
+	cout << (((1.0 + 2.0) + 3.0) + 4.0) + 5.0 << " "  << "\n";
+	cout << (1.0 + 1.0) / 2.0 << " "  << "\n";
+	cout << 1.0 / 2.0 << " "  << "\n";
 	
-	auto ass = hurrah("HELLO", 2.0f);;
+	auto ass = hurrah("HELLO", 2.0);;
 	cout << ass << " "  << "\n";
-	auto a = 1.0f;
+	auto a = 1.0;
 	auto b = "abc woah im so nerdy Lua String !";
 	cout << b << " "  << "\n";
 	cout << a << " "  << "\n";
 	
 	cout << MyAwesomeGlobal << " "  << "\n";
+	for (float i = 1.0; i <= 3.0; i+=1.0) {
+			cout << "my AMAZING FOR is" << " " << i << " "  << "\n";
+	}
+	for (float i = 0.0; i <= 1.0; i+=0.01) {
+			cout << "my AMAZING Floats are" << " " << i << " "  << "\n";
+	}
 	cout << "Please give me a number between 0 and 15." << " "  << "\n";
-	auto userNumber = 0.0f;
+	auto userNumber = 0.0;
 	cin >> userNumber;
-	if (userNumber != 0.0f) {
+	if (userNumber != 0.0) {
 		cout << "Hahahah you suck loser !!" << " "  << "\n";
-}else if (userNumber == 0.0f) {
+	}else if (userNumber == 0.0) {
 		cout << "You win, not much too it eh ? ?!? ?!@#?E !@? ?!@ ?!@? " << " "  << "\n";
-}
+	}
 
 	cout << userNumber << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
-	auto PARTICLEBAR = 0.0f;
+	auto PARTICLEBAR = 0.0;
 	while (true) {
-		PARTICLEBAR = PARTICLEBAR + 1.0f;
+		PARTICLEBAR = PARTICLEBAR + 1.0;
 		cout << PARTICLEBAR << " "  << "\n";
-		if (PARTICLEBAR == 100.0f) {
+		if (PARTICLEBAR == 100.0) {
 		break;
 
-}
+	}
 
 	}
 	cout << "you lose." << " "  << "\n";

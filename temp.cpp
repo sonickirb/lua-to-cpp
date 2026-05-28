@@ -9,13 +9,13 @@ using namespace std;
 string ioread() {
     string got;
     cin >> got;
-    cout << "LUACOMP ioread " << got << "\n";
+    //cout << "LUACOMP ioread " << got << "\n";
     return got;
 }
 
 double tonumber(string str) {
 	double num = stod(str);
-    cout << "LUACOMP tonumber " << num << "\n";
+    //cout << "LUACOMP tonumber " << num << "\n";
 	return num;
 }
 

@@ -63,7 +63,7 @@ int main() {
 	cout << userNumber << " "  << "\n";
 	cout << numuser << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
-	for (double i = 0.0 - 100000.0; i <= 100000.0; i+=0.01) {
+	for (double i = 0.0 - 100000.0; i <= 100000.0; i+=0.0001) {
 			cout << i << " "  << "\n";
 	}
 

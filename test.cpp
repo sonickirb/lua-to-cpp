@@ -1,8 +1,13 @@
 #include <iostream>
 #include <float.h>
 #include <string.h>
+#include <any>
 using namespace std;
 
+auto hurrah(auto a, auto b) {
+		cout << "aoiksdok" << " "  << "\n";
+		cout << a << " " << b << " "  << "\n";
+}
 string MyAwesomeGlobal = "abc";
 
 
@@ -14,6 +19,8 @@ int main() {
 	cout << (((1.0f + 2.0f) + 3.0f) + 4.0f) + 5.0f << " "  << "\n";
 	cout << (1.0f + 1.0f) / 2.0f << " "  << "\n";
 	cout << 1.0f / 2.0f << " "  << "\n";
+	
+	hurrah("HELLO", 2.0f);
 	float a = 1.0f;
 	string b = "abc woah im so nerdy Lua String !";
 	cout << b << " "  << "\n";

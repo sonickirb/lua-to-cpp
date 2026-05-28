@@ -68,6 +68,17 @@ local function translate(luafile, cpptemplateFile)
                 f = f .. ' << "\\n";'
             elseif func == 'ioread' then
                 f = f .. 'cin >> ' .. parseBlock(inputs[1]) .. ';'
+            else
+                f = f .. func .. '('
+                for inputIndex, input in pairs(inputs) do
+                    local interpreted = parseBlock(input)
+                    
+                    f = f .. interpreted
+                    if inputIndex < #inputs then
+                        f = f .. ', '
+                    end
+                end
+                f = f .. ');'
             end
         elseif action == 'local' or action == 'global' then
             local name = com[2][1]
@@ -134,6 +145,32 @@ local function translate(luafile, cpptemplateFile)
             f = f .. '\t}'
         elseif action == 'break' then
             f = f .. 'break;\n'
+        elseif action == 'function' then
+            f = f .. 'auto '
+            local name = com[2]
+            f = f .. name
+            local params = com[3]
+            f = f .. '('
+            for index, paramName in pairs(params) do
+                f = f .. 'auto ' .. paramName
+
+                if index ~= #params then f = f .. ', ' end
+            end
+            f = f .. ')'
+            local blocks = com[4]
+
+            f = f .. ' {\n'
+            for _, com2 in pairs(blocks) do
+                local x = ''
+
+                x = plzsend(com2)
+
+                f = f .. '\t\t' .. x .. '\n'
+            end
+            f = f .. '}'
+
+            GLOBALVAR = GLOBALVAR .. f .. '\n'
+            f = ''
         end
 
         return f

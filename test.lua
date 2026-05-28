@@ -5,6 +5,13 @@ print(1+2+3+4+5)
 print((1 + 1) / 2)
 print(1 / 2)
 
+function hurrah(a, b)
+    print('aoiksdok')
+    print(a, b)
+end
+
+hurrah('HELLO', 2)
+
 local a = 1
 local b = "abc woah im so nerdy Lua String !"
 print(b)

@@ -156,13 +156,30 @@ function base()
       return {nil}
     elseif Na == "not" then
       return {"not", top()}
+    elseif Na == "return" then
+      return {"return", top()}
+    elseif Na == "function" then
+      local fname = GetName()
+      Match("(")
+      local fparam_names = {}
+      while Look ~= ")" do
+        table.insert(fparam_names, GetName())
+        if Look == "," then Match(",") end
+      end
+      local o = {}
+      while Read(3) ~= "end" do -- IF YOU CHANGE THIS, CHANGE THE DO CODE!
+        table.insert(o, top())
+      end
+      Match("e")Match("n")Match("d")
+
+      return {"function", fparam_names, o}
     elseif Na == "while" then
       return {"while", top(), top()}
     elseif Na == "do" then
       --print("hiiii")
       -- [code block]
       local o = {}
-      while Read(3) ~= "end" do
+      while Read(3) ~= "end" do -- IF YOU CHANGE THIS, CHANGE THE FUNCTIONS CODE!
         table.insert(o, top())
       end
       Match("e")Match("n")Match("d")
@@ -220,6 +237,7 @@ function priority_2()
 end
 function priority_3()
   local parameter_1 = priority_2()
+  if not parameter_1 then
   if Look == "~" and View(1) ~= "=" then
     Match("~")
     return {"~", parameter_1}
@@ -229,6 +247,7 @@ function priority_3()
   elseif Look == "-" then
     Match("-")
     return {"-", parameter_1}
+  end
   end
   return parameter_1
 end
@@ -355,6 +374,12 @@ if cond1 then 1 2 elseif cond2 then 3 4 elseif cond3 then 5 6 end
 ]]
 Str = [[
 while true do while true do print("hi") end end
+]]
+Str = [[
+print(abc + (98238998 - (29834792834 / (893478.281289 * (982389.109 * 3.145)))))
+]]
+Str = [[
+a = 2 - 2
 ]]
 
 --print(CreateLinesTable(Str))

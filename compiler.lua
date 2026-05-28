@@ -257,4 +257,6 @@ local function translate(luafile, cpptemplateFile)
     file:write(cpp)
 end
 
-translate(io.read(), io.read())
+local luausdhjij, ccccccccrioijmroiemn = ...
+
+translate(luausdhjij or io.read(), ccccccccrioijmroiemn or io.read())

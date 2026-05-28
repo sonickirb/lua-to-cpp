@@ -4,4 +4,7 @@ if a == 2 then
     a = a + 1
   end
 end
+while a < 10000000000000000 do
+  a = a + 1
+end
 print(a)

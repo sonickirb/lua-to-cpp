@@ -156,6 +156,8 @@ function base()
       return {nil}
     elseif Na == "not" then
       return {"not", top()}
+    elseif Na == "while" then
+      return {"while", top(), top()}
     elseif Na == "do" then
       --print("hiiii")
       -- [code block]
@@ -166,10 +168,10 @@ function base()
       Match("e")Match("n")Match("d")
       return o
     elseif Na == "if" then
-          print(Look, Read(30))
+          --print(Look, Read(30))
       local condition = top()
-      print(condition)
-      print(Look, Read(30))
+      --print(condition)
+      --print(Look, Read(30))
       if GetName() ~= "then" then Expected("then") end
       local o = {"if"}
       local current_t = {condition, {}}
@@ -350,6 +352,9 @@ b = true and true
 ]]
 Str = [[
 if cond1 then 1 2 elseif cond2 then 3 4 elseif cond3 then 5 6 end
+]]
+Str = [[
+while true do while true do print("hi") end end
 ]]
 
 --print(CreateLinesTable(Str))

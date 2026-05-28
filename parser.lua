@@ -1,5 +1,4 @@
 -- qar_ty amazing lua code youve got here of all code and codes of all code
-
 local Str = ""
 local At = 0
 local Look = ""
@@ -172,7 +171,7 @@ function base()
       end
       Match("e")Match("n")Match("d")
 
-      return {"function", fparam_names, o}
+      return {"function", fname, fparam_names, o}
     elseif Na == "while" then
       return {"while", top(), top()}
     elseif Na == "break" then

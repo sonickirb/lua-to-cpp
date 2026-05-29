@@ -69,6 +69,10 @@ print('your number was either good or bad i have no idea for i am the good guy a
 
 --print('you lose.')
 
-for i = 0 - 100000, 100000, 0.0001 do
-    print(i)
-end
+print('wait for?')
+local seconds = io.read()
+print('waitting for ' .. seconds)
+wait(tonumber(seconds))
+print('done!')
+
+error('You win!')

@@ -3,6 +3,7 @@
 #include <string.h>
 #include <any>
 #include <bits/stdc++.h>
+#include <unistd.h>
 using namespace std;
 
 // built-in lua functions
@@ -18,6 +19,22 @@ double tonumber(string str) {
     //cout << "LUACOMP tonumber " << num << "\n";
 	return num;
 }
+
+// CPPFUNC //
+void error(string text) {
+    cout << "\n" << text;
+    abort();
+}
+
+const unsigned int microsecond = 1000000;
+
+void wait(double seconds) {
+    usleep(seconds * microsecond);
+}
+
+// CPPFUNC-END //
+
+
 
 auto hurrah(auto a, auto b) {
 		cout << "aoiksdok" << " "  << "\n";
@@ -63,9 +80,12 @@ int main() {
 	cout << userNumber << " "  << "\n";
 	cout << numuser << " "  << "\n";
 	cout << "your number was either good or bad i have no idea for i am the good guy and not that evil EVIL good guy !!!@#!@#934509348034987920834988!@#(@#$(@!#))" << " "  << "\n";
-	for (double i = 0.0 - 100000.0; i <= 100000.0; i+=0.0001) {
-			cout << i << " "  << "\n";
-	}
+	cout << "wait for?" << " "  << "\n";
+	auto seconds = ioread();
+	cout << "waitting for " + seconds << " "  << "\n";
+	wait(tonumber(seconds));
+	cout << "done!" << " "  << "\n";
+	error("You win!");
 
 
     return 0;

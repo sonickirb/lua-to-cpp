@@ -49,12 +49,25 @@ local function translate(luafile, cpptemplateFile)
 
     local AssHole = {}
 
-    function plzsend(com, actionTable)
+    local CPPFUNC = '// CPPFUNC //\n'
+    local cppfunction = {}
+
+    for fname in io.popen('ls -- CPPFUNC/'):lines() do
+        local file = io.open('CPPFUNC/' .. fname, 'r')
+        if not file then error(fname .. ' was not accessible') end
+        local cfunc = file:read('a')
+        file:close()
+
+        cppfunction[string.sub(fname, 1, string.len(fname)-4)] = cfunc
+        CPPFUNC = CPPFUNC .. cfunc .. '\n\n'
+    end
+
+    CPPFUNC = CPPFUNC .. '// CPPFUNC-END //\n\n'
+
+    function plzsend(com, inside)
         local f = ''
 
         local action = com[1]
-        if not actionTable then actionTable = {} end
-        actionTable[#actionTable+1] = action
 
         if action == 'call' then
             local func = com[2][1]
@@ -69,8 +82,6 @@ local function translate(luafile, cpptemplateFile)
                     f = f .. '<< ' .. interpreted .. ' << " " '
                 end
                 f = f .. ' << "\\n";'
-            elseif func == 'ioread' then
-                f = f .. 'cin >> ' .. parseBlock(inputs[1]) .. ';'
             else
                 f = f .. func .. '('
                 for inputIndex, input in pairs(inputs) do
@@ -82,6 +93,7 @@ local function translate(luafile, cpptemplateFile)
                     end
                 end
                 f = f .. ')'
+                if not inside then f = f .. ';' print(':)') end
             end
         elseif action == 'local' or action == 'global' then
             local name = com[2][1]
@@ -152,7 +164,7 @@ local function translate(luafile, cpptemplateFile)
                     for _, com2 in pairs(blocks) do
                         local x = ''
 
-                        x = plzsend(com2)
+                        x = plzsend(com2, true)
 
                         f = f .. '\t\t' .. x .. '\n'
                     end
@@ -220,7 +232,7 @@ local function translate(luafile, cpptemplateFile)
         local bNUM
 
         if blk[1] == 'call' then
-            parsed = plzsend(blk)
+            parsed = plzsend(blk, true)
         else
             for i, v in pairs(blk) do
                 local t = type(v)
@@ -282,6 +294,7 @@ local function translate(luafile, cpptemplateFile)
 
     cpp = string.gsub(cpp, 'LUACODE', translated)
     cpp = string.gsub(cpp, 'GLOBALVAR', GLOBALVAR)
+    cpp = string.gsub(cpp, 'CPPFUNC', CPPFUNC)
 
     print(cpp)
 

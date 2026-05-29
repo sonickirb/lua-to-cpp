@@ -3,6 +3,7 @@
 #include <string.h>
 #include <any>
 #include <bits/stdc++.h>
+#include <unistd.h>
 using namespace std;
 
 // built-in lua functions
@@ -18,6 +19,8 @@ double tonumber(string str) {
     //cout << "LUACOMP tonumber " << num << "\n";
 	return num;
 }
+
+CPPFUNC
 
 GLOBALVAR
 

@@ -13,9 +13,9 @@ missing input to translate
 example usage:
  lets say you have a lua file named main.lua
  you can translate it to "main.cpp" like this:
-     $ lua5.1 compiler.lua main
+     $ lua compiler.lua main
  optionally, you can attach a template file to use for translating (not recommended)
-     $ lua5.1 compiler.lua main temp
+     $ lua compiler.lua main temp
  otherwise, it'll just use "temp.cpp"
 ```
 

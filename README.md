@@ -6,6 +6,7 @@ funny Lua to C++ compiler i made with [qar_ty](https://github.com/qarty-a)
 
 you can pull up a HELP menu by running the program with no arguments like this: <br>
 `$ lua compiler.lua` <br>
+which should output this: <br>
 ```
 missing input to translate
 [HELP]

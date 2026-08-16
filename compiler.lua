@@ -38,6 +38,8 @@ local function translate(luafile, cpptemplateFile)
 
     local luainfo = CreateLinesTable(lua)
 
+    cpptemplateFile = cpptemplateFile or 'temp'
+
     local file = io.open(cpptemplateFile .. '.cpp', 'r')
     if not file then error(cpptemplateFile .. ".cpp was not accessible") end
     local cpp = file:read('a')
@@ -298,11 +300,29 @@ local function translate(luafile, cpptemplateFile)
 
     print(cpp)
 
-    local file = io.open(luafile .. '.cpp', 'w')
-    if not file then error(luafile .. ".cpp was not accessible") end
+    local file = io.open('translated/' .. luafile .. '.cpp', 'w')
+    if not file then error('translated/' .. luafile .. ".cpp was not accessible") end
     file:write(cpp)
+end
+
+local function help()
+    print('[HELP]')
+    print('example usage:')
+    print(' lets say you have a lua file named main.lua')
+    print(' you can translate it to \"main.cpp\" like this:')
+    print('     $ lua5.1 compiler.lua main')
+    print(' optionally, you can attach a template file to use for translating (not recommended)')
+    print('     $ lua5.1 compiler.lua main temp')
+    print(' otherwise, it\'ll just use \"temp.cpp\"')
 end
 
 local luausdhjij, ccccccccrioijmroiemn = ...
 
-translate(luausdhjij or io.read(), ccccccccrioijmroiemn or io.read())
+if not luausdhjij then
+    print('missing input to translate')
+    help()
+
+    return
+end
+
+translate(luausdhjij or io.read(), ccccccccrioijmroiemn)
